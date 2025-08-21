@@ -1,0 +1,15 @@
+{
+  "name": "kinomir",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "serve": "npx http-server -c-1 -p 5173 | cat",
+    "test:e2e": "playwright test",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "http-server": "^14.1.1"
+  }
+}
