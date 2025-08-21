@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>КиноМир - Смотреть фильмы онлайн</title>
+    <meta name="theme-color" content="#111827">
     
     <!-- Подключение Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,28 +14,34 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
     <!-- Подключение файла со стилями -->
     <link rel="stylesheet" href="style.css">
     
 </head>
 <body class="bg-gray-900 text-gray-100">
 
+    <!-- Ссылка для перехода к основному контенту (доступность) -->
+    <a href="#main" class="skip-link sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded">Перейти к содержимому</a>
+
     <!-- Шапка сайта -->
-    <header class="fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm z-50">
+    <header class="fixed top-0 left-0 right-0 bg-gray-900 bg-opacity-80 backdrop-blur-sm z-50" role="banner">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center space-x-8">
                     <a href="#" class="text-2xl font-bold text-red-500">КиноМир</a>
-                    <nav class="hidden md:flex items-center space-x-6 text-sm font-medium">
+                    <nav class="hidden md:flex items-center space-x-6 text-sm font-medium" aria-label="Основная навигация">
                         <a href="#" class="text-gray-200 hover:text-red-500 transition">Главная</a>
                         <a href="#" class="text-gray-400 hover:text-red-500 transition">Фильмы</a>
                         <a href="#" class="text-gray-400 hover:text-red-500 transition">Сериалы</a>
-                        <a href="#" class="text-gray-400 hover:text-red-500 transition">Мой список</a>
+                        <a href="#" id="nav-mylist" class="text-gray-400 hover:text-red-500 transition">Мой список</a>
                     </nav>
                 </div>
                 <div class="flex items-center space-x-4">
                     <div class="relative">
-                        <input type="text" placeholder="Поиск..." class="bg-gray-800 border border-gray-700 rounded-full py-1.5 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 w-32 md:w-48 transition-all">
+                        <input id="search-input" type="text" placeholder="Поиск..." aria-label="Поиск фильмов" class="bg-gray-800 border border-gray-700 rounded-full py-1.5 px-4 pl-10 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 w-32 md:w-48 transition-all" autocomplete="off">
                         <svg class="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <div class="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center font-bold text-white">A</div>
@@ -44,22 +51,22 @@
     </header>
 
     <!-- Основной контент -->
-    <main class="pt-16">
+    <main id="main" class="pt-16" role="main">
         <!-- "Герой" секция с главным фильмом -->
-        <section id="hero-section" class="relative h-[60vh] md:h-[80vh] flex items-end text-white p-4 sm:p-8 lg:p-12">
+        <section id="hero-section" class="relative h-[60vh] md:h-[80vh] flex items-end text-white p-4 sm:p-8 lg:p-12" aria-label="Рекомендованный фильм">
             <div class="absolute inset-0">
-                <img id="hero-backdrop" src="https://placehold.co/1600x900/111827/111827?text=+" alt="Постер фильма" class="w-full h-full object-cover">
+                <img id="hero-backdrop" src="https://placehold.co/1600x900/111827/111827?text=+" alt="Постер фильма" class="w-full h-full object-cover" loading="lazy">
                 <div class="absolute inset-0 hero-gradient"></div>
             </div>
             <div class="relative z-10 max-w-xl">
                 <h1 id="hero-title" class="text-4xl md:text-6xl font-black mb-4">Загрузка...</h1>
                 <p id="hero-overview" class="text-gray-300 mb-6 text-sm md:text-base max-w-lg"></p>
                 <div class="flex space-x-4">
-                    <button id="hero-watch-btn" class="watch-btn bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full flex items-center space-x-2 transition">
+                    <button id="hero-watch-btn" class="watch-btn bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full flex items-center space-x-2 transition" aria-label="Смотреть трейлер выбранного фильма">
                         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
                         <span>Смотреть</span>
                     </button>
-                    <button id="hero-details-btn" class="details-btn bg-gray-700 bg-opacity-60 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-full transition">
+                    <button id="hero-details-btn" class="details-btn bg-gray-700 bg-opacity-60 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-full transition" aria-haspopup="dialog" aria-controls="modal-content">
                         Подробнее
                     </button>
                 </div>
@@ -68,28 +75,32 @@
 
         <!-- Карусели с фильмами -->
         <div class="space-y-12 py-12 container mx-auto px-4 sm:px-6 lg:px-8">
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Популярно сейчас</h2>
-                <div id="popular-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar"></div>
+            <section aria-labelledby="popular-heading">
+                <h2 id="popular-heading" class="text-2xl font-bold mb-4">Популярно сейчас</h2>
+                <div id="popular-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar" role="list" aria-label="Популярные фильмы"></div>
             </section>
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Лучшие оценки</h2>
-                <div id="top-rated-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar"></div>
+            <section aria-labelledby="top-rated-heading">
+                <h2 id="top-rated-heading" class="text-2xl font-bold mb-4">Лучшие оценки</h2>
+                <div id="top-rated-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar" role="list" aria-label="Фильмы с высокими оценками"></div>
             </section>
-             <section>
-                <h2 class="text-2xl font-bold mb-4">Ожидаемые новинки</h2>
-                <div id="upcoming-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar"></div>
+             <section aria-labelledby="upcoming-heading">
+                <h2 id="upcoming-heading" class="text-2xl font-bold mb-4">Ожидаемые новинки</h2>
+                <div id="upcoming-movies" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar" role="list" aria-label="Скоро в прокате"></div>
+            </section>
+            <section aria-labelledby="mylist-heading">
+                <h2 id="mylist-heading" class="text-2xl font-bold mb-4">Мой список</h2>
+                <div id="my-list" class="flex space-x-4 overflow-x-auto pb-4 -mx-4 px-4 no-scrollbar" role="list" aria-label="Избранные фильмы"></div>
             </section>
         </div>
     </main>
 
     <!-- Модальное окно для подробной информации -->
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 hidden">
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1">
         <div id="modal-content" class="bg-gray-800 rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto relative modal-enter"></div>
     </div>
 
     <!-- Оверлей для плеера -->
-    <div id="player-overlay" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden">
+    <div id="player-overlay" class="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true" aria-label="Плеер трейлера" tabindex="-1">
         <button id="close-player" class="absolute top-5 right-5 text-white z-10">
             <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -98,171 +109,8 @@
         </div>
     </div>
 
-    <!-- Скрипт для интерактивности и API -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- НАСТРОЙКИ API ---
-            const API_KEY = 'd9dfa44607376fc8cbe78f55c15ed183'; // <-- ВАШ КЛЮЧ УЖЕ ЗДЕСЬ
-            const BASE_URL = 'https://api.themoviedb.org/3';
-            const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-            const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/original';
-
-            // --- ЭЛЕМЕНТЫ DOM ---
-            const heroSection = document.getElementById('hero-section');
-            const modal = document.getElementById('modal');
-            const modalContent = document.getElementById('modal-content');
-            const playerOverlay = document.getElementById('player-overlay');
-            const playerContainer = document.getElementById('player-container');
-
-            // --- ФУНКЦИИ API ---
-            async function fetchFromAPI(endpoint) {
-                const url = `${BASE_URL}${endpoint}?api_key=${API_KEY}&language=ru-RU`;
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`Ошибка сети: ${response.statusText}`);
-                    return await response.json();
-                } catch (error) {
-                    console.error(`Ошибка при загрузке из ${endpoint}:`, error);
-                    return null;
-                }
-            }
-
-            // --- ФУНКЦИИ РЕНДЕРИНГА ---
-            function createMovieCard(movie) {
-                const movieCard = document.createElement('div');
-                movieCard.className = 'movie-card flex-shrink-0 w-1/3 sm:w-1/4 md:w-1/5 lg:w-1/6 cursor-pointer';
-                movieCard.dataset.id = movie.id;
-                const posterPath = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : 'https://placehold.co/400x600/1a202c/ffffff?text=Нет+постера';
-                movieCard.innerHTML = `<img src="${posterPath}" alt="${movie.title}" class="rounded-lg shadow-lg hover:scale-105 transform transition-transform duration-300">`;
-                return movieCard;
-            }
-
-            async function populateCarousel(endpoint, containerId) {
-                const container = document.getElementById(containerId);
-                if (!container) return;
-                const data = await fetchFromAPI(endpoint);
-                if (data && data.results) {
-                    container.innerHTML = '';
-                    data.results.forEach(movie => {
-                        if (movie.poster_path) container.appendChild(createMovieCard(movie));
-                    });
-                }
-            }
-
-            function updateHeroSection(movie) {
-                if (!movie) return;
-                heroSection.dataset.id = movie.id;
-                document.getElementById('hero-backdrop').src = `${BACKDROP_BASE_URL}${movie.backdrop_path}`;
-                document.getElementById('hero-title').textContent = movie.title;
-                document.getElementById('hero-overview').textContent = movie.overview;
-            }
-
-            // --- ЛОГИКА МОДАЛЬНОГО ОКНА И ПЛЕЕРА ---
-            async function openModal(movieId) {
-                const movie = await fetchFromAPI(`/movie/${movieId}`);
-                if (!movie) return;
-
-                const year = movie.release_date ? movie.release_date.substring(0, 4) : 'N/A';
-                const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-                const genres = movie.genres.map(g => g.name).join(', ');
-
-                modalContent.innerHTML = `
-                    <button id="close-modal" class="absolute top-3 right-3 text-gray-400 hover:text-white z-10">
-                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                    </button>
-                    <div class="md:flex">
-                        <img src="${IMAGE_BASE_URL}${movie.poster_path}" alt="Постер ${movie.title}" class="w-full md:w-1/3 h-auto object-cover rounded-l-lg">
-                        <div class="p-6 md:p-8 flex flex-col">
-                            <h2 class="text-3xl font-bold mb-2">${movie.title}</h2>
-                            <div class="flex items-center space-x-4 text-gray-400 mb-4">
-                                <span>${year}</span>
-                                <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
-                                    <span class="font-bold">${rating}</span>
-                                </div>
-                            </div>
-                            <p class="text-sm text-gray-500 mb-4">${genres}</p>
-                            <p class="text-gray-300 mb-6 flex-grow">${movie.overview}</p>
-                            <button class="watch-btn w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-full flex items-center justify-center space-x-2 transition mt-auto" data-id="${movie.id}">
-                                <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
-                                <span>Смотреть трейлер</span>
-                            </button>
-                        </div>
-                    </div>
-                `;
-                modal.classList.remove('hidden');
-                modalContent.classList.add('modal-enter');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeModal() {
-                modalContent.classList.remove('modal-enter');
-                modalContent.classList.add('modal-leave');
-                setTimeout(() => {
-                    modal.classList.add('hidden');
-                    document.body.style.overflow = 'auto';
-                }, 300);
-            }
-
-            async function playTrailer(movieId) {
-                const data = await fetchFromAPI(`/movie/${movieId}/videos`);
-                const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-                
-                if (trailer) {
-                    playerContainer.innerHTML = `<iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/${trailer.key}?autoplay=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-                } else {
-                    playerContainer.innerHTML = `<div class="w-full h-full flex items-center justify-center text-xl text-white">Трейлер не найден.</div>`;
-                }
-                playerOverlay.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closePlayer() {
-                playerOverlay.classList.add('hidden');
-                playerContainer.innerHTML = ''; // Остановка видео
-                document.body.style.overflow = 'auto';
-            }
-
-            // --- ОБРАБОТЧИКИ СОБЫТИЙ ---
-            document.body.addEventListener('click', (event) => {
-                const card = event.target.closest('.movie-card');
-                const watchBtn = event.target.closest('.watch-btn');
-                const detailsBtn = event.target.closest('.details-btn');
-                const closeModalBtn = event.target.closest('#close-modal');
-                const closePlayerBtn = event.target.closest('#close-player');
-
-                if (card) openModal(card.dataset.id);
-                if (detailsBtn) openModal(heroSection.dataset.id);
-                if (watchBtn) playTrailer(watchBtn.dataset.id || heroSection.dataset.id);
-                if (closeModalBtn || event.target === modal) closeModal();
-                if (closePlayerBtn || event.target === playerOverlay) closePlayer();
-            });
-
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    if (!modal.classList.contains('hidden')) closeModal();
-                    if (!playerOverlay.classList.contains('hidden')) closePlayer();
-                }
-            });
-
-            // --- ИНИЦИАЛИЗАЦИЯ ---
-            async function init() {
-                if (API_KEY === 'ВАШ_API_КЛЮЧ') {
-                    document.body.innerHTML = `<div class="h-screen w-full flex items-center justify-center text-2xl text-white">Пожалуйста, укажите ваш API ключ в HTML-файле.</div>`;
-                    return;
-                }
-                const data = await fetchFromAPI('/movie/popular');
-                if (data && data.results.length > 0) {
-                    updateHeroSection(data.results[0]);
-                }
-                populateCarousel('/movie/popular', 'popular-movies');
-                populateCarousel('/movie/top_rated', 'top-rated-movies');
-                populateCarousel('/movie/upcoming', 'upcoming-movies');
-            }
-
-            init();
-        });
-    </script>
+    <!-- Модульный скрипт приложения -->
+    <script type="module" src="/src/main.js"></script>
 
 </body>
 </html>

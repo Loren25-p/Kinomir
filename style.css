@@ -11,6 +11,19 @@ body {
     color: #F9FAFB; /* Светлый текст */
 }
 
+/* Доступность: скрытый, но доступный для навигации элемент */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
 /* Стилизация скроллбара для карусели */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
@@ -32,6 +45,9 @@ body {
 .modal-leave {
     animation: fadeOut 0.3s ease-in;
 }
+.modal-open {
+    overflow: hidden;
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
@@ -39,4 +55,25 @@ body {
 @keyframes fadeOut {
     from { opacity: 1; transform: scale(1); }
     to { opacity: 0; transform: scale(0.95); }
+}
+
+/* Скелетон-загрузчики */
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    background: #1f2937;
+}
+.skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150px;
+    height: 100%;
+    width: 150px;
+    background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.08), rgba(255,255,255,0));
+    animation: shimmer 1.2s infinite;
+}
+@keyframes shimmer {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
 }
